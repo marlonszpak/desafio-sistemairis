@@ -40,8 +40,4 @@ public class RecipeService {
         }
         return null; // or throw an exception
     }
-
-//    public List<Recipe> findRecipesWithAtLeastIngredients(int ingredientCount) {
-//        return recipeRepository.findRecipesWithAtLeastIngredients(ingredientCount);
-//    }
 }

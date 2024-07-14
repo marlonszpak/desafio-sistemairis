@@ -33,7 +33,7 @@ public class IngredientService {
             existingIngredient.setDescription(newIngredient.getDescription());
             return ingredientRepository.save(existingIngredient);
         }
-        return null; // or throw an exception
+        return null;
     }
 }
 
