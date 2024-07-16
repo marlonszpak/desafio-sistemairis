@@ -12,7 +12,7 @@ const RecipeModal = ({ isOpen, onRequestClose, onRecipeSaved, currentRecipe }) =
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
-        const response = await fetch('https://e706-187-59-43-112.ngrok-free.app/desafio/ingredients');
+        const response = await fetch('http://localhost:8080/desafio/ingredients');
         if (!response.ok) {
           throw new Error('Erro ao buscar ingredientes');
         }
@@ -57,13 +57,15 @@ const RecipeModal = ({ isOpen, onRequestClose, onRecipeSaved, currentRecipe }) =
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!description || /\d/.test(description)) {
-      setError('Descrição inválida. Não pode ser vazia ou conter números.');
+    const invalidCharacters = /[^a-zA-ZÀ-ÖØ-öø-ÿ\s]/;
+
+    if (!description || /\d/.test(description) || invalidCharacters.test(description)) {
+      setError('Descrição inválida. Não pode ser vazia, conter números ou caracteres especiais.');
       return;
     }
 
     if (selectedIngredients.length < 2) {
-      setError('Selecione pelo menos dois ingredientes.');
+      setError('Selecione pelo menos dois ingredientes para sua receita.');
       return;
     }
 
@@ -73,7 +75,7 @@ const RecipeModal = ({ isOpen, onRequestClose, onRecipeSaved, currentRecipe }) =
     };
 
     try {
-      const response = await fetch(currentRecipe ? `https://e706-187-59-43-112.ngrok-free.app/desafio/recipes/${currentRecipe.id}` : 'https://e706-187-59-43-112.ngrok-free.app/desafio/recipes', {
+      const response = await fetch(currentRecipe ? `http://localhost:8080/desafio/recipes/${currentRecipe.id}` : 'http://localhost:8080/desafio/recipes', {
         method: currentRecipe ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
